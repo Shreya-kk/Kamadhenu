@@ -18,12 +18,13 @@
     body {
       background-color: #f5f9f5;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow-x: hidden;
     }
     
     .dashboard-container {
-  width: 100%;
-  margin: 0;
-}
+      width: 100%;
+      margin: 0;
+    }
 
     .sidebar {
       background: linear-gradient(to bottom, var(--primary), #1b5e20);
@@ -33,9 +34,15 @@
       width: 250px;
       padding-top: 20px;
       box-shadow: 3px 0 10px rgba(0,0,0,0.1);
+      z-index: 1000;
+      transition: all 0.3s ease;
     }
     
-    .main-content { margin-left: 250px; padding: 20px; }
+    .main-content { 
+      margin-left: 250px; 
+      padding: 20px;
+      transition: all 0.3s ease;
+    }
     
     .header {
       background-color: white;
@@ -109,19 +116,140 @@
       background-size: 200px;
     }
 
+    /* Mobile menu toggle button */
+    .menu-toggle {
+      display: none;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      z-index: 1100;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    /* Responsive styles */
+    @media (max-width: 992px) {
+      .cow-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .cow-card > div {
+        width: 100%;
+      }
+      
+      .qr-box {
+        margin-top: 15px;
+        align-self: center;
+      }
+    }
+
     @media (max-width: 768px) {
-      .sidebar { width: 100%; height: auto; position: relative; }
-      .main-content { margin-left: 0; }
-      .cow-card { flex-direction: column; align-items: center; }
-      .cow-card img.photo { width: 100%; height: auto; }
-      .qr-box { margin-top: 15px; }
+      .sidebar {
+        transform: translateX(-100%);
+        width: 70%;
+        max-width: 250px;
+      }
+      
+      .sidebar.active {
+        transform: translateX(0);
+      }
+      
+      .main-content {
+        margin-left: 0;
+        width: 100%;
+      }
+      
+      .menu-toggle {
+        display: block;
+      }
+      
+      .header {
+        padding: 15px 15px 15px 50px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      
+      .cow-card img.photo {
+        width: 100%;
+        height: auto;
+        max-width: 300px;
+        margin: 0 auto 15px;
+        display: block;
+      }
+      
+      .cow-details {
+        width: 100%;
+      }
+      
+      .cow-details .btn-group {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 10px;
+      }
+      
+      .btn-sm {
+        margin: 5px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .main-content {
+        padding: 10px;
+      }
+      
+      .cow-card {
+        padding: 10px;
+      }
+      
+      .qr-box img {
+        width: 100px;
+        height: 100px;
+      }
+      
+      .logo h2 {
+        font-size: 1.5rem;
+      }
+    }
+
+    /* Overlay for mobile when sidebar is open */
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 999;
+    }
+    
+    .overlay.active {
+      display: block;
     }
   </style>
 </head>
 <body class="cow-background">
+  <!-- Mobile menu toggle -->
+  <button class="menu-toggle" id="menuToggle">
+    <i class="fas fa-bars"></i>
+  </button>
+  
+  <!-- Overlay for mobile -->
+  <div class="overlay" id="overlay"></div>
+
   <div class="dashboard-container">
     <!-- Sidebar -->
-    <div class="sidebar">
+    <div class="sidebar" id="sidebar">
       <div class="logo">
         <h2><i class="fas fa-cow"></i> Kamadhenu</h2>
         <p class="mb-0">Cow Management System</p>
@@ -139,7 +267,7 @@
     </div>
 
     <!-- Main Content -->
-    <div class="main-content">
+    <div class="main-content" id="mainContent">
       <!-- Header -->
       <div class="header">
         <h2 class="welcome-text">My Cow Profiles</h2>
@@ -149,29 +277,27 @@
       <!-- Cow Cards -->
       {% for cow in cows %}
       <div class="cow-card d-flex align-items-center justify-content-between">
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center flex-column flex-md-row">
           {% if cow.photo %}
-  <img src="{{ url_for('static', filename='uploads/cow/' ~ cow.photo) }}" class="photo me-3" alt="Cow Photo">
-{% else %}
-  <img src="{{ url_for('static', filename='uploads/default.jpg') }}" class="photo me-3" alt="No Photo">
-{% endif %}
+          <img src="{{ url_for('static', filename='uploads/cow/' ~ cow.photo) }}" class="photo me-md-3" alt="Cow Photo">
+          {% else %}
+          <img src="{{ url_for('static', filename='uploads/default.jpg') }}" class="photo me-md-3" alt="No Photo">
+          {% endif %}
 
-
-
-          <div class="cow-details">
+          <div class="cow-details mt-3 mt-md-0">
             <h5 style="color: var(--primary); font-weight: bold;">{{ cow.breed }} ({{ cow.cow_id }})</h5>
             <p><b>Age:</b> {{ cow.age }} years</p>
             <p><b>Weight:</b> {{ cow.weight }} kg</p>
             <p><b>Milk Yield:</b> {{ cow.milk_yield }} L/day</p>
             <p><b>Color:</b> {{ cow.color }}</p>
             
-            <div class="mt-2">
-              <a href="/cow/{{ cow.cow_id }}" class="btn btn-sm btn-success"><i class="fas fa-eye"></i> View Details</a>
+            <div class="mt-2 d-flex flex-wrap">
+              <a href="/cow/{{ cow.cow_id }}" class="btn btn-sm btn-success m-1"><i class="fas fa-eye"></i> View Details</a>
               <a href="{{ url_for('static', filename='qrcodes/' ~ cow.cow_id ~ '.png') }}" 
-                 download="{{ cow.cow_id }}.png" class="btn btn-sm btn-outline-primary">
+                 download="{{ cow.cow_id }}.png" class="btn btn-sm btn-outline-primary m-1">
                 <i class="fas fa-download"></i> Download QR
               </a>
-              <form action="/delete_cow/{{ cow.cow_id }}" method="POST" style="display:inline;">
+              <form action="/delete_cow/{{ cow.cow_id }}" method="POST" class="m-1">
                 <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this cow?');">
                   <i class="fas fa-trash"></i> Delete
                 </button>
@@ -191,5 +317,51 @@
       <a href="/dashboard" class="btn btn-primary mt-3"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
     </div>
   </div>
+
+  <script>
+    // Toggle mobile sidebar
+    const menuToggle = document.getElementById('menuToggle');
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.getElementById('mainContent');
+    const overlay = document.getElementById('overlay');
+    
+    menuToggle.addEventListener('click', function() {
+      sidebar.classList.toggle('active');
+      overlay.classList.toggle('active');
+      
+      // Change icon based on sidebar state
+      const icon = menuToggle.querySelector('i');
+      if (sidebar.classList.contains('active')) {
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-times');
+      } else {
+        icon.classList.remove('fa-times');
+        icon.classList.add('fa-bars');
+      }
+    });
+    
+    // Close sidebar when clicking on overlay
+    overlay.addEventListener('click', function() {
+      sidebar.classList.remove('active');
+      overlay.classList.remove('active');
+      const icon = menuToggle.querySelector('i');
+      icon.classList.remove('fa-times');
+      icon.classList.add('fa-bars');
+    });
+    
+    // Close sidebar when clicking on a nav link (mobile)
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+      link.addEventListener('click', function() {
+        if (window.innerWidth <= 768) {
+          sidebar.classList.remove('active');
+          overlay.classList.remove('active');
+          const icon = menuToggle.querySelector('i');
+          icon.classList.remove('fa-times');
+          icon.classList.add('fa-bars');
+        }
+      });
+    });
+  </script>
 </body>
 </html>
