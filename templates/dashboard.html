@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Kamadhenu</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #043c07;
+      --secondary: #ffc107;
+      --light: #f8f9fa;
+      --dark: #343a40;
+      --light-green: #e8f5e9;
+    }
+    
+    body {
+      background-color: #f5f9f5;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .dashboard-container {
+      width: 100%;
+      margin: 0;
+    }
+
+    .sidebar {
+      background: linear-gradient(to bottom, var(--primary), #1b5e20);
+      color: white;
+      height: 100vh;
+      position: fixed;
+      width: 250px;
+      padding-top: 20px;
+      box-shadow: 3px 0 10px rgba(0,0,0,0.1);
+    }
+    
+    .main-content {
+      margin-left: 250px;
+      padding: 20px;
+    }
+    
+    .header {
+      background-color: white;
+      padding: 15px 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .welcome-text {
+      color: var(--primary);
+      font-weight: 600;
+    }
+    
+    .card {
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      transition: transform 0.3s;
+      margin-bottom: 20px;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+    }
+    
+    .card-action {
+      display: block;
+      padding: 25px;
+      text-decoration: none;
+      color: var(--dark);
+      text-align: center;
+    }
+    
+    .card-action i {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      color: var(--primary);
+    }
+    
+    .card-action h3 {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+      color: var(--primary);
+    }
+    
+    .card-action p {
+      color: #666;
+      font-size: 0.9rem;
+    }
+    
+    .stats-card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+    
+    .stats-number {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--primary);
+    }
+    
+    .stats-label {
+      color: #666;
+      font-size: 0.9rem;
+    }
+    
+    .cow-icon {
+      background-color: var(--light-green);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+    }
+    
+    .cow-icon i {
+      color: var(--primary);
+      font-size: 1.5rem;
+    }
+    
+    .logo {
+      text-align: center;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      margin-bottom: 30px;
+    }
+    
+    .nav-item {
+      margin: 10px 0;
+    }
+    
+    .nav-link {
+      color: rgba(255,255,255,0.8);
+      padding: 12px 20px;
+      border-radius: 5px;
+      margin: 5px 15px;
+      transition: all 0.3s;
+    }
+    
+    .nav-link:hover, .nav-link.active {
+      background-color: rgba(255,255,255,0.1);
+      color: white;
+    }
+    
+    .nav-link i {
+      margin-right: 10px;
+      width: 20px;
+      text-align: center;
+    }
+    
+    .logout-btn {
+      background-color: var(--secondary);
+      color: var(--dark);
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+    
+    .logout-btn:hover {
+      background-color: #e0a800;
+      transform: translateY(-2px);
+    }
+    
+    .cow-background {
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path fill="%232e7d32" fill-opacity="0.05" d="M50,10A40,40 0 1,1 50,90A40,40 0 1,1 50,10z M30,30 Q50,15 70,30 Q65,50 70,70 Q50,85 30,70 Q35,50 30,30 z"></path></svg>');
+      background-repeat: repeat;
+      background-size: 200px;
+    }
+    
+    /* Chatbot Styles */
+    #chatbot-icon {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      background: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      cursor: pointer;
+      z-index: 1000;
+    }
+    
+    #chatbot-icon i {
+      color: white;
+      font-size: 24px;
+    }
+    
+    #chatbot-popup {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      background: white;
+      padding: 15px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      width: 320px;
+      height: 400px;
+      display: none;
+      flex-direction: column;
+      z-index: 1000;
+    }
+    
+    .chat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .chat-header h5 {
+      color: #2e7d32;
+      margin: 0;
+    }
+    
+    #close-chatbot {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      color: #666;
+    }
+    
+    #chat-log {
+      flex: 1;
+      max-height: 300px;
+      overflow-y: auto;
+      font-size: 14px;
+      margin-bottom: 10px;
+      padding: 5px;
+      border: 1px solid #eee;
+      border-radius: 5px;
+    }
+    
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+      
+      .main-content {
+        margin-left: 0;
+      }
+      
+      #chatbot-popup {
+        width: 280px;
+        right: 10px;
+      }
+    }
+  </style>
+</head>
+<body class="cow-background">
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="logo">
+        <h2><i class="fas fa-cow"></i> Kamadhenu</h2>
+        <p class="mb-0">Cow Management System</p>
+      </div>
+      
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link active" href="/dashboard">
+            <i class="fas fa-tachometer-alt"></i> Dashboard
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/add_cow">
+            <i class="fas fa-plus-circle"></i> Add New Cow
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/cows">
+            <i class="fas fa-list"></i> View My Cows
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/book_appointment">
+            <i class="fas fa-syringe"></i> Book Appointment
+          </a>
+        </li>
+    <!--    <li class="nav-item">
+          <a class="nav-link" href="#">
+            <i class="fas fa-chart-line"></i> Production Stats
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <i class="fas fa-calendar"></i> Breeding Calendar
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <i class="fas fa-cog"></i> Settings
+          </a>
+        </li>-->
+      </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Header -->
+      <div class="header">
+        <div>
+          <h2 class="welcome-text">Welcome, {{ farmer_name }}!</h2>
+          <p class="mb-0 text-muted">Here's your farm management dashboard</p>
+        </div>
+       <a href="{{ url_for('farmer_logout') }}" class="btn btn-danger">Logout</a>
+      </div>
+
+      <!-- Stats Overview -->
+      <div class="row">
+        <div class="col-md-3">
+          <div class="stats-card">
+            <div class="cow-icon">
+              <i class="fas fa-cow"></i>
+            </div>
+            <div class="stats-number">{{ total_cows }}</div>
+            <div class="stats-label">Total Cows</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stats-card">
+            <div class="cow-icon">
+              <i class="fas fa-glass-milk"></i>
+            </div>
+            <div class="stats-number">{{ total_milk }} L</div>
+            <div class="stats-label">Daily Milk Production</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <h3 class="mt-4 mb-3" style="color: var(--primary);">Quick Actions</h3>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card">
+            <a href="/add_cow" class="card-action">
+              <i class="fas fa-plus-circle"></i>
+              <h3>Add New Cow</h3>
+              <p>Register a new cow to your farm with detailed profile information</p>
+            </a>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <a href="/cows" class="card-action">
+              <i class="fas fa-list"></i>
+              <h3>View My Cows</h3>
+              <p>Browse your cattle, check health records and update information</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chatbot Icon (Always visible) -->
+    <div id="chatbot-icon">
+      <i class="fas fa-robot"></i>
+    </div>
+
+    <!-- Chatbot Popup (Hidden by default) -->
+    <div id="chatbot-popup">
+      <div class="chat-header">
+        <h5>🐄 Kamadhenu Voice Help</h5>
+        <button id="close-chatbot">×</button>
+      </div>
+      <div id="chat-log"></div>
+      <div style="display: flex; gap: 10px;">
+        <button id="recordBtn" class="btn btn-success" style="flex: 1;"><i class="fas fa-microphone"></i> ಮಾತನಾಡಿ</button>
+        <button id="textInputBtn" class="btn btn-outline-primary"><i class="fas fa-keyboard"></i></button>
+      </div>
+      <button id="clear-chat-btn" class="btn btn-outline-secondary btn-sm mb-2">
+    <i class="fas fa-trash"></i> ಚಾಟ್ ಅಳಿಸಿ
+</button>
+      <div id="text-input-container" style="display: none; margin-top: 10px;">
+        <input type="text" id="text-input" class="form-control" placeholder="ಟೈಪ್ ಮಾಡಿ...">
+        <button id="send-text-btn" class="btn btn-primary w-100 mt-2">ಕಳುಹಿಸಿ</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Simple animation for cards on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      const cards = document.querySelectorAll('.card');
+      cards.forEach((card, index) => {
+        setTimeout(() => {
+          card.style.opacity = 1;
+          card.style.transform = 'translateY(0)';
+        }, 100 * index);
+      });
+    });
+
+    // Chatbot functionality
+    let recognition;
+    let currentLang = "kn"; // Default to Kannada
+    let isChatbotOpen = false;
+    let isListening = false;
+
+    // Toggle chatbot visibility
+    document.getElementById("chatbot-icon").addEventListener("click", function() {
+      const popup = document.getElementById("chatbot-popup");
+      if (isChatbotOpen) {
+        popup.style.display = "none";
+      } else {
+        popup.style.display = "flex";
+        // Add welcome message when opening
+        addMessage("bot", "ನಮಸ್ಕಾರ! ನಾನು ನಿಮ್ಮ ಕೃಷಿ ಸಹಾಯಕ. ಹೇಗೆ ಸಹಾಯ ಮಾಡಲಿ?");
+      }
+      isChatbotOpen = !isChatbotOpen;
+    });
+
+    // Close chatbot
+    document.getElementById("close-chatbot").addEventListener("click", function() {
+      document.getElementById("chatbot-popup").style.display = "none";
+      isChatbotOpen = false;
+    });
+
+    // Toggle text input
+    document.getElementById("textInputBtn").addEventListener("click", function() {
+      const textInputContainer = document.getElementById("text-input-container");
+      if (textInputContainer.style.display === "none") {
+        textInputContainer.style.display = "block";
+      } else {
+        textInputContainer.style.display = "none";
+      }
+    });
+
+    // Send text message
+    document.getElementById("send-text-btn").addEventListener("click", function() {
+      const textInput = document.getElementById("text-input");
+      const message = textInput.value.trim();
+      if (message) {
+        addMessage("user", message);
+        textInput.value = "";
+        processMessage(message);
+      }
+    });
+// Clear chat button functionality
+document.getElementById("clear-chat-btn").addEventListener("click", function() {
+    document.getElementById("chat-log").innerHTML = "";
+});
+    // Enter key to send text message
+    document.getElementById("text-input").addEventListener("keypress", function(e) {
+      if (e.key === "Enter") {
+        document.getElementById("send-text-btn").click();
+      }
+    });
+
+    // Add message to chat log
+    function addMessage(sender, text) {
+      const chatLog = document.getElementById("chat-log");
+      const messageDiv = document.createElement("div");
+      messageDiv.innerHTML = `<b>${sender === "user" ? "ನೀವು" : "ಸಹಾಯಕ"}:</b> ${text}<br>`;
+      chatLog.appendChild(messageDiv);
+      chatLog.scrollTop = chatLog.scrollHeight;
+    }
+
+    // Process message and get response
+    async function processMessage(message) {
+      try {
+        const res = await fetch("/chatbot", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: message, lang: currentLang })
+        });
+        const data = await res.json();
+        addMessage("bot", data.reply);
+        speakText(data.reply);
+      } catch (error) {
+        console.error("Error:", error);
+        addMessage("bot", "ಕ್ಷಮಿಸಿ, ತಾಂತ್ರಿಕ ಸಮಸ್ಯೆ ಉಂಟಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.");
+      }
+    }
+
+    // Speak text using browser's speech synthesis
+    function speakText(text) {
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'kn-IN';
+        speechSynthesis.speak(utterance);
+      }
+    }
+
+    // 🎙️ Setup Speech Recognition
+    if ("webkitSpeechRecognition" in window) {
+      recognition = new webkitSpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = "kn-IN"; // Kannada by default
+
+      recognition.onstart = function() {
+        isListening = true;
+        document.getElementById("recordBtn").innerHTML = '<i class="fas fa-circle"></i> Listening...';
+        document.getElementById("recordBtn").classList.add("btn-danger");
+        document.getElementById("recordBtn").classList.remove("btn-success");
+      };
+
+      recognition.onend = function() {
+        isListening = false;
+        document.getElementById("recordBtn").innerHTML = '<i class="fas fa-microphone"></i> ಮಾತನಾಡಿ';
+        document.getElementById("recordBtn").classList.remove("btn-danger");
+        document.getElementById("recordBtn").classList.add("btn-success");
+      };
+
+      recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        addMessage("user", transcript);
+        processMessage(transcript);
+      };
+
+      recognition.onerror = function(event) {
+        console.error("Speech recognition error", event.error);
+        addMessage("bot", "ಕ್ಷಮಿಸಿ, ನಿಮ್ಮ ಧ್ವನಿಯನ್ನು ಗುರುತಿಸಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.");
+        isListening = false;
+        document.getElementById("recordBtn").innerHTML = '<i class="fas fa-microphone"></i> ಮಾತನಾಡಿ';
+        document.getElementById("recordBtn").classList.remove("btn-danger");
+        document.getElementById("recordBtn").classList.add("btn-success");
+      };
+    } else {
+      // Browser doesn't support speech recognition
+      document.getElementById("recordBtn").disabled = true;
+      document.getElementById("recordBtn").innerHTML = '<i class="fas fa-microphone-slash"></i> Not Supported';
+    }
+
+    document.getElementById("recordBtn").addEventListener("click", function() {
+      if (isListening) {
+        recognition.stop();
+      } else {
+        recognition.start();
+      }
+    });
+  </script>
+</body>
+</html>

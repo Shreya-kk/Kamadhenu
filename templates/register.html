@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Farmer Registration - Kamadhenu</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: url("https://plus.unsplash.com/premium_photo-1661810446470-8987822f9fb2?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8Y2F0dGxlJTIwZmFybXxlbnwwfHwwfHx8MA%3D%3D") no-repeat center center fixed;
+      background-size: cover;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .register-box {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 40px;
+      border-radius: 15px;
+      width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.3);
+    }
+    .register-box h2 {
+      margin-bottom: 20px;
+      font-weight: bold;
+      text-align: center;
+      color: #2d6a4f;
+    }
+    .form-control {
+      border-radius: 10px;
+    }
+    .btn-custom {
+      background: #2d6a4f;
+      color: white;
+      border-radius: 10px;
+    }
+    .btn-custom:hover {
+      background: #1b4332;
+    }
+    .extra-links {
+      text-align: center;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="register-box">
+    <h2>🐄 Farmer Registration</h2>
+    <form method="POST">
+      <div class="mb-3">
+        <label class="form-label">Name</label>
+        <input type="text" class="form-control" name="name" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-control" name="email" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Phone</label>
+        <input type="text" class="form-control" name="phone" required>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">State</label>
+          <input type="text" class="form-control" name="state" required>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">City</label>
+          <input type="text" class="form-control" name="city" required>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Address</label>
+        <input type="text" class="form-control" name="address">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input type="password" class="form-control" name="password" required>
+      </div>
+      <button type="submit" class="btn btn-custom w-100">Register</button>
+    </form>
+    <div class="extra-links">
+      <p>Already registered? <a href="/login">Login here</a></p>
+    </div>
+  </div>
+</body>
+</html>

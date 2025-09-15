@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Cows - Kamadhenu</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #043c07;
+      --secondary: #ffc107;
+      --light: #f8f9fa;
+      --dark: #343a40;
+      --light-green: #e8f5e9;
+    }
+    
+    body {
+      background-color: #f5f9f5;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .dashboard-container {
+  width: 100%;
+  margin: 0;
+}
+
+    .sidebar {
+      background: linear-gradient(to bottom, var(--primary), #1b5e20);
+      color: white;
+      height: 100vh;
+      position: fixed;
+      width: 250px;
+      padding-top: 20px;
+      box-shadow: 3px 0 10px rgba(0,0,0,0.1);
+    }
+    
+    .main-content { margin-left: 250px; padding: 20px; }
+    
+    .header {
+      background-color: white;
+      padding: 15px 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .welcome-text { color: var(--primary); font-weight: 600; }
+
+    .cow-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      margin-bottom: 20px;
+      padding: 15px;
+    }
+
+    .cow-card img.photo {
+      width: 200px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .cow-details p { margin: 5px 0; font-size: 0.95rem; }
+
+    .qr-box img {
+      width: 120px;
+      height: 120px;
+    }
+
+    .btn-sm { margin: 3px; }
+
+    .logo {
+      text-align: center;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      margin-bottom: 30px;
+    }
+    
+    .nav-item { margin: 10px 0; }
+    .nav-link {
+      color: rgba(255,255,255,0.8);
+      padding: 12px 20px;
+      border-radius: 5px;
+      margin: 5px 15px;
+      transition: all 0.3s;
+    }
+    .nav-link:hover, .nav-link.active { background-color: rgba(255,255,255,0.1); color: white; }
+    .nav-link i { margin-right: 10px; width: 20px; text-align: center; }
+
+    .logout-btn {
+      background-color: var(--secondary);
+      color: var(--dark);
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+    .logout-btn:hover { background-color: #e0a800; transform: translateY(-2px); }
+
+    .cow-background {
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path fill="%232e7d32" fill-opacity="0.05" d="M50,10A40,40 0 1,1 50,90A40,40 0 1,1 50,10z M30,30 Q50,15 70,30 Q65,50 70,70 Q50,85 30,70 Q35,50 30,30 z"></path></svg>');
+      background-repeat: repeat;
+      background-size: 200px;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar { width: 100%; height: auto; position: relative; }
+      .main-content { margin-left: 0; }
+      .cow-card { flex-direction: column; align-items: center; }
+      .cow-card img.photo { width: 100%; height: auto; }
+      .qr-box { margin-top: 15px; }
+    }
+  </style>
+</head>
+<body class="cow-background">
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="logo">
+        <h2><i class="fas fa-cow"></i> Kamadhenu</h2>
+        <p class="mb-0">Cow Management System</p>
+      </div>
+      <ul class="nav flex-column">
+        <li class="nav-item"><a class="nav-link" href="/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link" href="/add_cow"><i class="fas fa-plus-circle"></i> Add New Cow</a></li>
+        <li class="nav-item"><a class="nav-link active" href="/cows"><i class="fas fa-list"></i> View My Cows</a></li>
+         <li class="nav-item">
+          <a class="nav-link" href="/book_appointment">
+            <i class="fas fa-syringe"></i> Book Appointment
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Header -->
+      <div class="header">
+        <h2 class="welcome-text">My Cow Profiles</h2>
+        <a href="/logout" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      </div>
+
+      <!-- Cow Cards -->
+      {% for cow in cows %}
+      <div class="cow-card d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center">
+          {% if cow.photo %}
+  <img src="{{ url_for('static', filename='uploads/cow/' ~ cow.photo) }}" class="photo me-3" alt="Cow Photo">
+{% else %}
+  <img src="{{ url_for('static', filename='uploads/default.jpg') }}" class="photo me-3" alt="No Photo">
+{% endif %}
+
+
+
+          <div class="cow-details">
+            <h5 style="color: var(--primary); font-weight: bold;">{{ cow.breed }} ({{ cow.cow_id }})</h5>
+            <p><b>Age:</b> {{ cow.age }} years</p>
+            <p><b>Weight:</b> {{ cow.weight }} kg</p>
+            <p><b>Milk Yield:</b> {{ cow.milk_yield }} L/day</p>
+            <p><b>Color:</b> {{ cow.color }}</p>
+            
+            <div class="mt-2">
+              <a href="/cow/{{ cow.cow_id }}" class="btn btn-sm btn-success"><i class="fas fa-eye"></i> View Details</a>
+              <a href="{{ url_for('static', filename='qrcodes/' ~ cow.cow_id ~ '.png') }}" 
+                 download="{{ cow.cow_id }}.png" class="btn btn-sm btn-outline-primary">
+                <i class="fas fa-download"></i> Download QR
+              </a>
+              <form action="/delete_cow/{{ cow.cow_id }}" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this cow?');">
+                  <i class="fas fa-trash"></i> Delete
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- QR Code -->
+        <div class="qr-box text-center">
+          <img src="{{ url_for('static', filename='qrcodes/' ~ cow.cow_id ~ '.png') }}" alt="QR Code">
+        </div>
+      </div>
+      {% endfor %}
+
+      <!-- Back to Dashboard -->
+      <a href="/dashboard" class="btn btn-primary mt-3"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+    </div>
+  </div>
+</body>
+</html>

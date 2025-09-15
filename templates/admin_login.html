@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kamadhenu - Admin Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            /* ✅ Background image + gradient overlay */
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+                        url("https://img.freepik.com/free-photo/cows-eating-lush-grass-green-field-front-fuji-mountain-japan_335224-36.jpg?semt=ais_hybrid&w=740&q=80") no-repeat center center/cover;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 450px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .login-header {
+            background: linear-gradient(135deg, #2e7d32 0%, #4caf50 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .login-header::after {
+            content: "";
+            position: absolute;
+            bottom: -20px;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background: white;
+            border-radius: 50% 50% 0 0;
+        }
+
+        .login-header i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .login-header h2 {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* ✅ Home button */
+        .home-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            color: white;
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .home-btn:hover {
+            color: #ffd700;
+            transform: scale(1.2);
+        }
+
+        .login-body {
+            padding: 40px 30px 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color:#043c07;
+            font-weight: 600;
+            font-size: 14px;
+            padding-left: 5px;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #0a320c;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: #020a02;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+            outline: none;
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, #2e7d32 0%, #4caf50 100%);
+            color: white;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        .cow-decoration {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 3rem;
+            color: #2e7d32;
+            opacity: 0.8;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 20px;
+            color: #757575;
+            font-size: 14px;
+        }
+
+        @media (max-width: 500px) {
+            .login-container {
+                max-width: 100%;
+            }
+
+            .login-body {
+                padding: 30px 20px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <i class="fas fa-user-shield"></i>
+            <h2>Admin Login</h2>
+            <!-- ✅ Home button -->
+            <a href="{{ url_for('home') }}" class="home-btn" title="Go to Home">
+    <i class="fas fa-home"></i>
+</a>
+
+        </div>
+
+        <div class="login-body">
+            <form method="POST">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-user input-icon"></i>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-login">Login</button>
+            </form>
+
+            <div class="cow-decoration">🐄</div>
+
+            <div class="footer-note">
+                Kamadhenu Cow Farm Management System
+            </div>
+        </div>
+    </div>
+</body>
+</html>

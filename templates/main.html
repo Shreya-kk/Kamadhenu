@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kamadhenu - Cow Farm Management System</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-green: #053207;
+      --light-green: #4caf50;
+      --pastoral-green: #8bc34a;
+      --cream: #fff9e6;
+      --brown: #795548;
+      --light-brown: #a98274;
+    }
+    
+    body {
+      background: linear-gradient(rgba(255, 249, 230, 0.8), rgba(255, 249, 230, 0.8)), 
+                  url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect fill="%23f0f7f0" width="100" height="100"/><path d="M0,0 L100,100 M100,0 L0,100" stroke="%23d7e8d7" stroke-width="1"/></svg>');
+      font-family: 'Nunito', sans-serif;
+      min-height: 100vh;
+      position: relative;
+    }
+    
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 300px;
+      background: linear-gradient(to bottom, var(--primary-green), var(--pastoral-green));
+      z-index: -1;
+      border-bottom-left-radius: 50% 20%;
+      border-bottom-right-radius: 50% 20%;
+    }
+    
+    .header {
+      text-align: center;
+      padding: 2rem 0;
+      color: white;
+    }
+    
+    .logo {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .brand-name {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    
+    .brand-tagline {
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+    
+    .role-card {
+      transition: transform 0.3s, box-shadow 0.3s;
+      border-radius: 15px;
+      border: none;
+      cursor: pointer;
+      background: white;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .role-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(to right, var(--primary-green), var(--pastoral-green));
+    }
+    
+    .role-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+    
+    .role-icon {
+      font-size: 60px;
+      color: var(--primary-green);
+      margin-bottom: 20px;
+      position: relative;
+    }
+    
+    .role-icon::after {
+      content: "";
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      background-color: rgba(139, 195, 74, 0.1);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: -1;
+    }
+    
+    .role-title {
+      color: var(--primary-green);
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    
+    .role-description {
+      color: var(--brown);
+      margin-bottom: 20px;
+    }
+    
+    .btn-enter {
+      background: linear-gradient(to right, var(--primary-green), var(--pastoral-green));
+      border: none;
+      border-radius: 50px;
+      padding: 8px 25px;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+    
+    .btn-enter:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .container-center {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem 0;
+    }
+    
+    .footer {
+      text-align: center;
+      padding: 2rem 0;
+      color: var(--brown);
+      font-size: 0.9rem;
+    }
+    
+    @media (max-width: 768px) {
+      .brand-name {
+        font-size: 2rem;
+      }
+      
+      .header {
+        padding: 1.5rem 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="logo">🐄</div>
+    <h1 class="brand-name">Kamadhenu</h1>
+    <p class="brand-tagline">Modern Cow Farm Management System</p>
+  </div>
+
+  <div class="container container-center">
+    <div class="row g-4 w-100 justify-content-center">
+
+      <!-- Admin Card -->
+      <div class="col-md-4 col-sm-6">
+        <div class="card role-card text-center p-4 h-100">
+          <i class="fas fa-user-shield role-icon mb-3"></i>
+          <h4 class="role-title">Admin</h4>
+          <p class="role-description">Manage the entire system and oversee operations</p>
+          <a href="{{ url_for('admin_login') }}" class="btn btn-enter mt-3">Enter</a>
+        </div>
+      </div>
+
+      <!-- Farmer Card -->
+      <div class="col-md-4 col-sm-6">
+        <div class="card role-card text-center p-4 h-100">
+          <i class="fas fa-tractor role-icon mb-3"></i>
+          <h4 class="role-title">Farmer</h4>
+          <p class="role-description">Manage your cows & daily farm activities</p>
+          <a href="{{ url_for('farmer') }}" class="btn btn-enter mt-3">Enter</a>
+        </div>
+      </div>
+
+      <!-- Veterinarian Card -->
+      <div class="col-md-4 col-sm-6">
+        <div class="card role-card text-center p-4 h-100">
+          <i class="fas fa-stethoscope role-icon mb-3"></i>
+          <h4 class="role-title">Veterinarian</h4>
+          <p class="role-description">Monitor cow health and provide treatments</p>
+         <a href="{{ url_for('veterinarian') }}" class="btn btn-enter mt-3">Enter</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>© 2023 Kamadhenu Cow Farm Management System | Bringing Technology to Traditional Farming</p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Veterinarian Registration - Kamadhenu</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Roboto+Slab:wght@400;500;600&display=swap');
+    
+    :root {
+      --primary: #2e7d32;
+      --secondary: #ffc107;
+      --light: #f8f9fa;
+      --dark: #343a40;
+    }
+    
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), 
+                  url('data:image/svg+xml,%3Csvg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z" fill="%232e7d32" fill-opacity="0.05" fill-rule="evenodd"/%3E%3C/svg%3E');
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    h1, h2, h3, h4, h5 {
+      font-family: 'Roboto Slab', serif;
+    }
+    
+    .navbar {
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .registration-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 0;
+    }
+    
+    .registration-card {
+      border: none;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+    
+    .registration-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .registration-header {
+      background-color: var(--primary);
+      color: white;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    
+    .registration-body {
+      padding: 2rem;
+    }
+    
+    .form-control {
+      border-radius: 8px;
+      padding: 0.8rem 1rem;
+      border: 1px solid #ddd;
+      transition: all 0.3s;
+    }
+    
+    .form-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 0.25rem rgba(46, 125, 50, 0.25);
+    }
+    
+    .input-icon {
+      position: relative;
+    }
+    
+    .input-icon i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--primary);
+    }
+    
+    .input-icon input {
+      padding-left: 45px;
+    }
+    
+    .btn-success {
+      background-color: var(--primary);
+      border-color: var(--primary);
+      padding: 0.8rem;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+    
+    .btn-success:hover {
+      background-color: #1b5e20;
+      border-color: #1b5e20;
+      transform: translateY(-2px);
+    }
+    
+    .divider {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin: 1.5rem 0;
+      color: #6c757d;
+    }
+    
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid #dee2e6;
+    }
+    
+    .divider::before {
+      margin-right: 0.5rem;
+    }
+    
+    .divider::after {
+      margin-left: 0.5rem;
+    }
+    
+    .footer {
+      background-color: var(--dark);
+      color: white;
+      padding: 1rem 0;
+      text-align: center;
+    }
+    
+    .vet-icon {
+      font-size: 3rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#">
+        <i class="fas fa-cow me-2"></i>Kamadhenu Vet
+      </a>
+      <div class="navbar-nav ms-auto">
+        <a class="nav-link" href="{{ url_for('veterinarian') }}"><i class="fas fa-home me-1"></i> Home</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Registration Section -->
+  <div class="registration-container">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+          <div class="registration-card">
+            <div class="registration-header">
+              <div class="vet-icon">
+                <i class="fas fa-user-md"></i>
+              </div>
+              <h3>Veterinarian Registration</h3>
+              <p class="mb-0">Join our network of professional veterinarians</p>
+            </div>
+            
+            <div class="registration-body">
+              <form method="POST" action="{{ url_for('vet_register') }}" enctype="multipart/form-data">
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">First Name</label>
+                    <div class="input-icon">
+                      <i class="fas fa-user"></i>
+                      <input type="text" name="first_name" class="form-control" required>
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Last Name</label>
+                    <div class="input-icon">
+                      <i class="fas fa-user"></i>
+                      <input type="text" name="last_name" class="form-control" required>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="mb-3">
+                  <label class="form-label">Email Address</label>
+                  <div class="input-icon">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" name="email" class="form-control" required>
+                  </div>
+                </div>
+                
+                <div class="mb-3">
+                  <label class="form-label">Phone Number</label>
+                  <div class="input-icon">
+                    <i class="fas fa-phone"></i>
+                    <input type="text" name="phone" class="form-control" required>
+                  </div>
+                </div>
+                
+                <div class="mb-3">
+                  <label class="form-label">Clinic / Hospital Name</label>
+                  <div class="input-icon">
+                    <i class="fas fa-hospital"></i>
+                    <input type="text" name="clinic" class="form-control">
+                  </div>
+                </div>
+                
+                <div class="mb-3">
+                  <label class="form-label">Password</label>
+                  <div class="input-icon">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" name="password" class="form-control" required>
+                  </div>
+                </div>
+                
+                <div class="mb-3">
+                  <label class="form-label">Confirm Password</label>
+                  <div class="input-icon">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" name="confirm_password" class="form-control" required>
+                  </div>
+                </div>
+                 <div class="mb-3">
+    <label class="form-label">Upload Photo</label>
+    <input type="file" name="photo" class="form-control" accept="image/*">
+  </div>
+                
+                <div class="mb-3 form-check">
+                  <input type="checkbox" class="form-check-input" id="terms" required>
+                  <label class="form-check-label" for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+                </div>
+                
+                <button type="submit" class="btn btn-success w-100">
+                  <i class="fas fa-user-plus me-2"></i> Register Now
+                </button>
+                
+                <div class="divider">OR</div>
+                
+                <p class="text-center mb-0">
+                  Already have an account? <a href="{{ url_for('vet_login') }}" class="text-success">Sign in here</a>
+                </p>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer mt-auto">
+    <div class="container">
+      <p class="mb-0">© 2023 Kamadhenu Project | Veterinary Services</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
