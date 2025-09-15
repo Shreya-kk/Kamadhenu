@@ -4,10 +4,13 @@ import uuid
 import os
 import google.generativeai as genai
 import os
-from googletrans import Translator
+#from googletrans import Translator
+from deep_translator import GoogleTranslator
+
 import google.generativeai as genai
 import time
 from dotenv import load_dotenv
+
 
 
 # Load environment variables
@@ -388,7 +391,7 @@ def delete_cow(cow_id):
     return redirect(url_for("list_cows"))
 
 
-translator = Translator()
+#translator = Translator()
 
 
 
@@ -448,7 +451,7 @@ def chatbot():
 def translate_to_english(text, retries=3):
     for attempt in range(retries):
         try:
-            return translator.translate(text, src="kn", dest="en").text
+            return GoogleTranslator(source="kn", target="en").translate(text)
         except Exception as e:
             time.sleep(1)
     return text
@@ -778,4 +781,5 @@ def admin_logout():
 if __name__ == "__main__":
     init_db()
     app.run(debug=True)
+
 
