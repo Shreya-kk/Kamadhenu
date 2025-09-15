@@ -7,8 +7,13 @@ import os
 from googletrans import Translator
 import google.generativeai as genai
 import time
+from dotenv import load_dotenv
+
+
+# Load environment variables
+load_dotenv()
 # Configure Gemini
-genai.configure(api_key="AIzaSyDxqOcGguN1q6pXF81eB2UCoqWKj7m5OlQ")
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 app = Flask(__name__)
 app.secret_key = "kamadhenu_secret"
@@ -773,3 +778,4 @@ def admin_logout():
 if __name__ == "__main__":
     init_db()
     app.run(debug=True)
+
