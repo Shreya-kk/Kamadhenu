@@ -43,7 +43,6 @@ if not os.path.exists(QR_FOLDER):
 
 # ---------------- Database Setup ----------------
 def init_db():
-    if not os.path.exists(DB_NAME):
         conn = sqlite3.connect(DB_NAME)
         cursor = conn.cursor()
 
@@ -781,5 +780,6 @@ def admin_logout():
 if __name__ == "__main__":
     init_db()
     app.run(debug=True)
+
 
 
